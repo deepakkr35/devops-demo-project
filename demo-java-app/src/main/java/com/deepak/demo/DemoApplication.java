@@ -30,7 +30,7 @@ public class DemoApplication {
         logger.info("INFO level log message");
         logger.debug("DEBUG level log message");
         logger.error("ERROR level log message");
-        model.addAttribute("title", "This is a Spring Boot demo app version v1.0");
+        model.addAttribute("title", "This is a Spring Boot demo app version v2.0");
         model.addAttribute("msg", "Implemented using DevOps.");
         return "index";
     }
