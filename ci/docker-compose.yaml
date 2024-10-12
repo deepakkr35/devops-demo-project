@@ -1,0 +1,33 @@
+services:
+  jenkins:
+    build:
+      context: ./Jenkins
+      dockerfile: Dockerfile  # Custom Dockerfile for Jenkins
+    container_name: jenkins
+    ports:
+      - "8010:8080"   # Jenkins web UI
+      - "50000:50000" # Jenkins agent
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock  # Mount Docker socket
+    networks:
+      - ci-network
+    environment:
+      - JENKINS_OPTS=--httpPort=8080
+
+  sonarqube:
+    image: sonarqube:lts
+    container_name: sonarqube
+    ports:
+      - "9000:9000"  # SonarQube web UI
+    networks:
+      - ci-network
+    environment:
+      - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+
+networks:
+  ci-network:
+    driver: bridge
+
+volumes:
+  jenkins_home:
