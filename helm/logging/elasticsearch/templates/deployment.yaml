@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    node.type: es-node-master
+  name: {{ .Values.appName }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      node.type: es-node-master
+  template:
+    metadata:
+      labels:
+        node.type: es-node-master
+    spec:
+      containers:
+        - name: es-node-master-container
+          env:
+            - name: discovery.type
+              value: single-node
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          readinessProbe:
+            exec:
+              command:
+              - curl
+              - localhost:9200/_cluster/health
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          livenessProbe:
+            exec:
+              command:
+              - curl
+              - localhost:9200/_cluster/health
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          ports:
+            - containerPort: 9200
+            - containerPort: 9300

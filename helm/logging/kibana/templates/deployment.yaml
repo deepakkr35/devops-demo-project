@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    node.type: kibana-node
+  name: {{ .Values.appName }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      node.type: kibana-node
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        node.type: kibana-node
+    spec:
+      containers:
+        - env:
+            - name: ELASTICSEARCH_HOSTS
+              value: http://es-master-service:9200
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          readinessProbe:
+            exec:
+              command:
+              - curl
+              - localhost:5601/api/status
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          livenessProbe:
+            exec:
+              command:
+              - curl
+              - localhost:5601/api/status
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          name: kibana
+          ports:
+            - containerPort: 5601
