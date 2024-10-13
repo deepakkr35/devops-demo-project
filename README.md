@@ -11,7 +11,7 @@
 - [Project Details](#project-details)
 
 ## Application Code
-The `Application-Code` directory contains the source code for the Demo Java Web Application. Dive into this directory to explore the implementations.
+The `demo-java-app` directory contains the source code for the Demo Java Web Application. Dive into this directory to explore the implementations.
 
 ## Jenkins Pipeline Code
 In the `ci/Jenkins` directory, you'll find Jenkins pipeline script. These scripts automate the CI process, ensuring smooth integration of your application.
@@ -31,7 +31,7 @@ The `helm` directory holds helm charts for deploying applications on Kubernetes.
 
 🚢 **High-Level Overview:**
 - Jenkins deployment on Docker
-- Minikube Cluster creation
+- Minikube Cluster creation using Docker as driver
 - Dockerhub repositories for image management
 - Helm charts for efficient monitoring and logging setup
 - GitOps with ArgoCD - the cherry on top!
